@@ -1,0 +1,56 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="username:" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/username_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="User password:" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/password_EditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number" />
+
+    <Button
+        android:id="@+id/login_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="login_Button" />
+
+    <Button
+        android:id="@+id/Sign_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign_Button" />
+
+
+    <Button
+        android:id="@+id/Jump_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="JUMP FOR JOY"/>
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#0000FF"
+        android:textSize="14sp">
+    </TextView>
+
+</LinearLayout>
