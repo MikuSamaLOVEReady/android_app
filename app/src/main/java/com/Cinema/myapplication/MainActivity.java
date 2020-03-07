@@ -70,14 +70,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 //第一个参数是 当前场景， 第二个是跳转的目的地
-                Intent intent =new Intent(MainActivity.this,HomePageActivity.class);
-                startActivity(intent);
+               // Intent intent =new Intent(MainActivity.this,HomePageActivity.class);
+               // startActivity(intent);
+                Activity_Change();
 
             }
 
         });
-
-
     }
 
     //由于实现了 监听接口 这里直接重写 接口方法 实现监听响应
@@ -108,14 +107,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId())
         {
             case R.id.login_Button:
-                String url = "http://softwareproject.pythonanywhere.com/user";
+
+                String url = "http://192.168.101.102:5000/user";
+                //String url = "  http://softwareproject.pythonanywhere.com/user";
                 LoginResponse(url,userName,passWord);
                 System.out.println("发送链接～");
                 break;
+                /*
             case R.id.Sign_Button:
-                String url2 = "http://softwareproject.pythonanywhere.com/register";
+                String url2 = "192.168.101.102/register";
                 RegisterResponse(url2,userName,passWord);
                 break;
+                */
+
 
         }
     }
@@ -175,9 +179,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         else//成功
                         {
                             System.out.println(res);
-
+                            //登陆成功后切换到 主界面
+                            Activity_Change();
                             /*还不是很明白这是在干啥？ 记录用户的登陆状态吗？
-
                             sharedPreferences = getSharedPreferences("UserIDAndPassword", MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             editor.putString("username", userName);
@@ -235,8 +239,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         else{
                             showSuccessSweetDialog("注册成功，快试试登陆吧～");
                         }
-
-
                     }
                 });
 
@@ -250,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     // 妈蛋一会再sweet吧 没装上插件
-    private void showWarnSweetDialog(String info)
+    public void showWarnSweetDialog(String info)
     {
         //
         SweetAlertDialog pDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
@@ -265,7 +267,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //注册成功的UI显示
-    private void showSuccessSweetDialog(String info)
+    public void showSuccessSweetDialog(String info)
     {
         SweetAlertDialog pDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.SUCCESS_TYPE);
         pDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
@@ -277,7 +279,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //这里就是 各个活动之间跳转的地方
     private void Activity_Change(){
 
-
+        Intent intent =new Intent(MainActivity.this,HomePageActivity.class);
+        startActivity(intent);
     }
 
 
