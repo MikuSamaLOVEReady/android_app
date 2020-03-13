@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+
+    <com.Cinema.myapplication.SelectTableClass.RoomTable
+        android:id="@+id/seatView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#ffffff" />
+
+    <Button
+        android:id="@+id/buy_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/seatView"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-9dp"
+        android:text="Buy" />
+
+    <TextView
+        android:id="@+id/Current_ticket1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Current_ticket1" />
+
+    <TextView
+        android:id="@+id/Current_ticket2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/Current_ticket1"
+        android:layout_alignParentBottom="true"
+        android:text="Current_ticket2" />
+    <TextView
+        android:id="@+id/Current_ticket3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/Current_ticket2"
+        android:layout_alignParentBottom="true"
+        android:text="Current_ticket3" />
+
+
+</RelativeLayout>

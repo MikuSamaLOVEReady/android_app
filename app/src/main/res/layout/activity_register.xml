@@ -26,24 +26,26 @@
         android:layout_height="wrap_content"
         android:inputType="text" />
 
-    <Button
-        android:id="@+id/login_Button"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="login_Button" />
+        android:text="Check password:" />
 
-    <Button
-        android:id="@+id/Sign_Button"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/password_check_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sign_Button" />
-
+        android:inputType="text" />
 
     <Button
-        android:id="@+id/seats"
+        android:id="@+id/user_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="JUMP FOR JOY"/>
+        android:text="SIGN UP" />
 
-
+    <Button
+        android:id="@+id/Go_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Back to login" />
 </LinearLayout>

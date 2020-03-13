@@ -1,11 +1,13 @@
 package com.Cinema.myapplication;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -30,58 +32,36 @@ import okhttp3.Response;
 
 public class HomePageActivity extends AppCompatActivity {
 
-   // private String[] Name_list ={};
-//    private String[] Blurb_list ={};
 
     ArrayList<Map<String, Object>> Info_list = new ArrayList<Map<String, Object>>();
 
-   // ArrayList<String> Name_list = new ArrayList<String>();
-    ArrayList<String> Blurb_list = new ArrayList<String>();
-    ArrayList<Bitmap> image_list = new  ArrayList<Bitmap>();
 
-    //byte[] charToBytes = byteBuffer.array();
     //储存 从UTF-8->bytes值
     byte[] imageByte;
     //加载一个解码器
     final Base64.Decoder decoder = Base64.getDecoder();
 
-    private ImageView mResultView;
-
     private Mybaseadapter list_item;
+
+    private Button showSchedul;
 
 
 
     private ListView listView;//用于获取xml中的 布局对象
 
-    private String[] strs = new String[] {
-        "first", "second", "third", "fourth", "fifth"
-    };//定义一个String数组用来显示ListView的内容
-
-    String[] countryArray = {"India", "Pakistan", "USA", "UK"};
-
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        //HomepageResponse();
-
-
         //Info_list.clear();
         HomepageResponse();
-        System.out.println(Info_list.size());  //==0
+        //System.out.println(Info_list.size());  //==0
 
         setContentView(R.layout.activity_home);
 
-
-        //mResultView = (ImageView) findViewById(R.id.result_image);
-
-
-
-        listView = (ListView)findViewById(R.id.listv); //得到ListView对象的引用
+        showSchedul = (Button) findViewById(R.id.schedule_show);
 
         //接下用 adoptor适配器 来设置内容
-       // listView.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_activated_1,strs) );
-
-
+        listView = (ListView)findViewById(R.id.listv); //得到ListView对象的引用
 
 
     }
@@ -94,9 +74,11 @@ public class HomePageActivity extends AppCompatActivity {
         String url = "http://192.168.101.102:5000/user/home";
         //创建链接
         OkHttpClient client = new OkHttpClient();
+
         //直接链接 不多bb
         //这次发送get请求 想办法获得 所有电影属性
         Request request = new Request.Builder().url(url).get().build();
+
         //发送请求
         Call call = client.newCall(request);
         //创建消息队列
@@ -117,7 +99,9 @@ public class HomePageActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException
             {
+                response.header("Connection","close");
                 final String res = response.body().string();
+                System.out.println(res);
                 //将重负荷的任务移除到工作线程避免主线程阻塞，
                 // 当需要更新UI的时候我们需要“返回”到主线程，因为只有它才可以更新应用 UI。
                 runOnUiThread(new Runnable() {
@@ -136,6 +120,7 @@ public class HomePageActivity extends AppCompatActivity {
                                 JSONObject jsonObject=Jarray.getJSONObject(i);
                                 String name=jsonObject.getString("FilmName");
                                 String blurb=jsonObject.getString("Blurb");
+                                String FilmID=jsonObject.getString("FilmID");
 
                                 //图片 由于传过来的时候进过了从  bytes-> sting的过程 使用UTF-8编码
                                 String encodeStr=jsonObject.getString("Image");
@@ -147,43 +132,19 @@ public class HomePageActivity extends AppCompatActivity {
                                 }
                                 //这里 设置 base64解码后存放的位置
                                 byte [] after_base64_decode=new byte[imageByte.length*2];
-
                                 //这里开始解码 base64
                                 decoder.decode(imageByte,after_base64_decode);
-
                                 //Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
                                 //这里把字节数组转化成 bitmap
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(after_base64_decode, 0, after_base64_decode.length);
-
-                                //bitmap->drawable
-                                //Drawable drawable = new BitmapDrawable(bitmap);
-                                // BitmapDrawable bitmapDrawable =new BitmapDrawable(bitmap);
-                                // Drawable drawable = (Drawable)bitmapDrawable;
-
-                                //图片 测试
-                                // mResultView.setImageBitmap(bitmap);
-
-                                //加入图片数组中去
-                                //image_list.add(bitmap);
-
+                                //用数据结构 hashmap 提高搜索效率
+                                map.put("FilmID",FilmID);
                                 map.put("FilmName",name);
                                 map.put("Blurb",blurb);
                                 map.put("image",bitmap);
                                 Info_list.add(map);
                                 System.out.println(Info_list.toString());
-                                //System.out.println(Info_list.size());
 
-                                // BitmapDrawable Drawablebitmap =
-
-
-                                //加入属性
-                                // image_list.add(after_base64_decode.toString());
-
-                                // System.out.println(bitmap);
-
-                                //  Name_list.add(name);
-                                // Blurb_list.add(blurb);
                             }
 
 
@@ -195,9 +156,6 @@ public class HomePageActivity extends AppCompatActivity {
 
                     }
                 });
-                //System.out.println(Name_list.toString());
-                //System.out.println(Blurb_list.toString());
-                //System.out.println(image_list.toString());
 
             }
         });
@@ -233,24 +191,34 @@ public class HomePageActivity extends AppCompatActivity {
                 viewHolder.image    = (ImageView) convertView.findViewById(R.id.image_view);
                 viewHolder.FilmName = (TextView) convertView.findViewById(R.id.filmname);
                 viewHolder.Blurb = (TextView) convertView.findViewById(R.id.blurb);
+                viewHolder.schedule_button =(Button) convertView.findViewById(R.id.schedule_show);
 
                 convertView.setTag(viewHolder);}
             else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-
-           // System.out.println(Info_list.toString());
-
+            final String FID =  Info_list.get(position).get("FilmID").toString();
             viewHolder.FilmName.setText(Info_list.get(position).get("FilmName").toString());
             viewHolder.Blurb.setText(Info_list.get(position).get("Blurb").toString());
             viewHolder.image.setImageBitmap((Bitmap) Info_list.get(position).get("image"));
-            //viewHolder.image.setImageBitmap();
+            viewHolder.schedule_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
+                    /*
+                    //System.out.println(FID+"hahahahaha");
+                    Intent intent=new Intent();
+                    intent.putExtra("FilmID", FID);//设置参数,""
+                    intent.setClass(HomePageActivity.this, ScheduleActivity.class);//从哪里跳到哪里
+                    startActivity(intent);
+                    //Activity_Change_back();
+                     */
+                    Intent intent=new Intent(HomePageActivity.this,ScheduleActivity.class);
+                    intent.putExtra("FilmID",FID);
+                    startActivity(intent);
 
-
-           // viewHolder.FilmName.setText(Name_list.get(position).get("FilmName").toString());
-           // viewHolder.Blurb.setText(Name_list.get(position).get("Blurb").toString());
-
+                }
+            });
             return convertView;
         }
     }
@@ -259,6 +227,15 @@ public class HomePageActivity extends AppCompatActivity {
         TextView FilmName;
         TextView Blurb;
         ImageView image;
+        Button   schedule_button;
     }
 
+
+    private void Activity_Change_back(){
+
+        //第一个参数是 当前场景， 第二个是跳转的目的地
+        Intent intent =new Intent(HomePageActivity.this,MainActivity.class);
+        startActivity(intent);
+
+    }
 }

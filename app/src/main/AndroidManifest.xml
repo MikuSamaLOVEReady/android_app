@@ -25,6 +25,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
+        <activity android:name=".PayFinishActivity">
+            <intent-filter>
+                <action android:name="com.Cinema.myapplication.ACTION_START" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".PayActivity">
+        </activity>
 
         <activity android:name=".MainActivity" >
             <intent-filter>
@@ -36,8 +44,22 @@
 
         <activity
             android:name=".HomePageActivity"
-            android:label="主界面">
+            android:label="HomePage">
+        </activity>
 
+        <activity
+            android:name=".RegisterActivity"
+            android:label="Register">
+        </activity>
+
+        <activity
+            android:name=".ScheduleActivity"
+            android:label="Schedules">
+        </activity>
+
+        <activity
+            android:name=".SelectSeatActivity"
+            android:label="SELECT">
         </activity>
 
 
