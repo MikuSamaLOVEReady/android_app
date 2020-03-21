@@ -62,6 +62,22 @@
             android:label="SELECT">
         </activity>
 
+        <activity
+            android:name=".NavActivity"
+            android:label="SELECT">
+        </activity>
+
+        <activity
+            android:name=".CheckOrderActivity"
+            android:label="SELECT">
+        </activity>
+
+        <activity
+            android:name=".OrderDetailActivity"
+            android:label="SELECT">
+        </activity>
+
+
 
     </application>
 

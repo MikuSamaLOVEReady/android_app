@@ -10,7 +10,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.Cinema.myapplication.SelectTableClass.RoomTable;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class SelectSeatActivity extends AppCompatActivity {
 
@@ -18,7 +26,7 @@ public class SelectSeatActivity extends AppCompatActivity {
     ArrayList<Integer> sold = new ArrayList<>();
 
     //别选定了的座位 只给出3个位置
-    ArrayList<Integer> seats_Check = new ArrayList<>(3);
+    public ArrayList<Integer> seats_Check = new ArrayList<>(3);
 
     private Button Buy;
 
@@ -35,6 +43,15 @@ public class SelectSeatActivity extends AppCompatActivity {
     public TextView selec_info3;
 
     int flag[] = {0,0,0};
+    public int number_of_ticket;
+
+    //真鸡儿麻烦 还得转换一次
+    public String SID_str;
+    //这个才是最后要用的 全局SID
+    public static int SID;
+
+
+    public int[] ints;
 
 
 
@@ -55,6 +72,20 @@ public class SelectSeatActivity extends AppCompatActivity {
         selec_info3.setVisibility(View.INVISIBLE);
 
 
+        //获取一下 所对应scheduleID  --先从int-》str——》int贼复杂！草了
+        Intent intent=getIntent();
+        //第二个参数表示没有接收到的时候 给的默认值
+        SID_str =intent.getStringExtra("ScheduleID");
+        //System.out.println(SID_str+"string 模式的局部变量——接受的内容！！！！！！！！！！！");
+        SID=Integer.parseInt(SID_str);
+        //System.out.println(SID+"数字版内容");
+
+        //先查询下 所有被卖掉的座位
+        CheckSoldResponse();
+
+
+
+
 
         final Button btn = (Button)findViewById(R.id.buy_button);
         btn.setVisibility(View.INVISIBLE);
@@ -63,26 +94,43 @@ public class SelectSeatActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //记录所有座位ID 初始化 全是0 表示没有一个有效ID
+                int seatID[] = {0,0,0};
+
+                //每次 都检查一哈 一共 有几个票
+                int count = 0;
+                for(int i =0;i<3; i++){
+                    //这个i 也是对应的 [85, -1, 99] 如果是这中 seatID【85，-1，99】
+                    if(seats_Check.get(i)!=-1){
+                        //如果不是-1则表示有ID
+                        seatID[i]=seats_Check.get(i);
+                        count++;
+                    }
+                }
+                number_of_ticket= count;
+
+                //发给select->payactivity->customdialog->payfinish
                 Intent intent =new Intent(SelectSeatActivity.this,PayActivity.class);
+                //传出 订单数量
+                intent.putExtra("TicketsNumber",number_of_ticket);
+                //传出 每个订单的座位ID
+                intent.putExtra("seatID1",seatID[0]);
+                intent.putExtra("seatID2",seatID[1]);
+                intent.putExtra("seatID3",seatID[2]);
+
                 startActivity(intent);
             }
         });
-
-
-
 
         //先放三个-1 表示位置为空
         seats_Check.add(-1);
         seats_Check.add(-1);
         seats_Check.add(-1);
-
         seatTableView = (RoomTable) findViewById(R.id.seatView);
-
 
         //seatTableView.setScreenName("8号厅荧幕");//设置屏幕名称
         //seatTableView.setMaxSelected(3);//设置最多选中
-
-
 
         //RoomTable 调用那个接口  从而设定 绘制作为的方案
         seatTableView.setSeatChecker( new RoomTable.SeatChecker() {
@@ -97,8 +145,16 @@ public class SelectSeatActivity extends AppCompatActivity {
 
             @Override
             public boolean isSold(int row, int column) {
+                /*
                 if(row==6&&column==6){
                     return true;
+                }
+                 */
+                if(ints!=null) {
+                    for (int i = 0; i < ints.length; i++) {
+                        if (seatTableView.getID(row, column) == ints[i])
+                            return true;
+                    }
                 }
                 return false;
             }
@@ -131,21 +187,21 @@ public class SelectSeatActivity extends AppCompatActivity {
                     if(seats_Check.get(0)!=-1){
                         selec_info1.setVisibility(View.VISIBLE);
                         if(flag[0]==0) {
-                            selec_info1.setText("row" + row + "   " + "column" + column + "\n" + "Price：");
+                            selec_info1.setText("row" + row + "   " + "column" + column + "\n" + "Price:23$ ");
                             flag[0]=1;
                         }
                     }
                     if(seats_Check.get(1)!=-1){
                         selec_info2.setVisibility(View.VISIBLE);
                         if(flag[1]==0) {
-                            selec_info2.setText("row" + row + "   " + "column" + column + "\n" + "Price：");
+                            selec_info2.setText("row" + row + "   " + "column" + column + "\n" + "Price:23$ ");
                             flag[1]=1;
                         }
                     }
                     if(seats_Check.get(2)!=-1){
                         selec_info3.setVisibility(View.VISIBLE);
                         if(flag[2]==0) {
-                            selec_info3.setText("row" + row + "   " + "column" + column + "\n" + "Price：");
+                            selec_info3.setText("row" + row + "   " + "column" + column + "\n" + "Price:23$ ");
                             flag[2]=1;
                         }
                     }
@@ -190,22 +246,8 @@ public class SelectSeatActivity extends AppCompatActivity {
 
                 //暂时不remove
                 //seats_Check.remove(Integer.valueOf(r_num));
-                System.out.println(seats_Check);
-                System.out.println(r_num);
-
-                /*
-                if(button_Check.size()<=2){
-                    //selec_info2.setVisibility(View.INVISIBLE);
-                    selec_info3.setVisibility(View.INVISIBLE);
-                }
-                if(button_Check.size()<=1){
-                    selec_info2.setVisibility(View.INVISIBLE);
-                }
-                if(button_Check.size()<=0){
-                    selec_info1.setVisibility(View.INVISIBLE);
-                }
-
-                 */
+                //System.out.println(seats_Check);
+                //System.out.println(r_num);
 
                 if(!haveSelect()){
                     btn.setVisibility(View.INVISIBLE);
@@ -217,6 +259,54 @@ public class SelectSeatActivity extends AppCompatActivity {
         });
         seatTableView.setData(10,15); //150个座位
     }
+
+    private void CheckSoldResponse()
+    {
+
+        String url = "http://192.168.101.102:5000/Get_sold";
+
+
+        OkHttpClient client = new OkHttpClient();
+        FormBody.Builder formBuilder = new FormBody.Builder();
+        formBuilder.add("schedulID",SID_str);//我太猛了 居然多余的转换没白费！！！
+
+        Request request = new Request.Builder().url(url).post(formBuilder.build()).build();
+
+        Call call = client.newCall(request);
+        call.enqueue(new Callback()
+        {
+            @Override
+            public void onFailure(Call call, IOException e)
+            {
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        System.out.println("服务器错误");
+                    }
+                });
+            }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException
+            {
+                final String res = response.body().string();
+                //分割开
+                if(res!="") {
+                    String[] tokens = res.split(" ");
+                    //把字符串 在转化成数字
+                    ints = new int[tokens.length];
+                    for (int i = 0; i < tokens.length; i++) {
+                        ints[i] = Integer.parseInt(tokens[i]);
+                    }
+                }
+
+
+            }
+        });
+
+    }
+
 
 
 

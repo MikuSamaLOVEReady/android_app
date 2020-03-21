@@ -42,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
    // private CardView cardView;
     private String username;
 
+    public static int UID;
+    public static String UserPassword;
+
 
     private Button JumpButton;
 
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         JumpButton =  (Button) findViewById(R.id.seats);
 
+        /*暂时没用了
         JumpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
             }
         });
+         */
         //测试button
 
 
@@ -151,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(Call call, Response response) throws IOException
             {
                 final String res = response.body().string();
+                System.out.println(res);
                 //将重负荷的任务移除到工作线程避免主线程阻塞，
                 // 当需要更新UI的时候我们需要“返回”到主线程，因为只有它才可以更新应用 UI。
                 runOnUiThread(new Runnable()
@@ -158,19 +164,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void run()
                     {
-                        if (res.equals("0"))
+                        if (res.equals("N"))
                         {
                             //System.out.println("无此账号,请先注册");
                             showWarnSweetDialog("无此账号,请先注册");
                         }
-                        else if(res.equals("1"))
+                        else if(res.equals("M"))
                         {
                             //System.out.println("密码不正确");
                             showWarnSweetDialog("密码不正确");
                         }
                         else//成功
                         {
-                            System.out.println(res);
+                            String[] result =res.split("\\.");
+                            UID=Integer.parseInt(result[0]);
+                            UserPassword=result[1];
+                            System.out.println(UID+UserPassword);
                             Activity_Change();
                         }
 
@@ -201,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void Activity_Change(){
 
         //第一个参数是 当前场景， 第二个是跳转的目的地
-        Intent intent =new Intent(MainActivity.this,HomePageActivity.class);
+        Intent intent =new Intent(MainActivity.this,NavActivity.class);
         startActivity(intent);
     }
 //注册界面 切换

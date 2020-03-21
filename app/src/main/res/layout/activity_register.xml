@@ -2,11 +2,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="100dp"
+    android:layout_marginLeft="80dp"
+    android:layout_marginRight="80dp"
     android:orientation="vertical" >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="#6014D7"
+        android:textSize="20sp"
         android:text="username:" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -18,6 +24,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="#6014D7"
+        android:textSize="20sp"
         android:text="User password:" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -29,6 +38,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="#6014D7"
+        android:textSize="20sp"
         android:text="Check password:" />
 
     <com.google.android.material.textfield.TextInputEditText
@@ -41,11 +53,17 @@
         android:id="@+id/user_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@layout/backgroud_homebutton"
+        android:layout_marginTop="10dp"
+        android:textColor="#FFF0F5"
         android:text="SIGN UP" />
 
     <Button
         android:id="@+id/Go_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@layout/backgroud_homebutton"
+        android:layout_marginTop="10dp"
+        android:textColor="#FFF0F5"
         android:text="Back to login" />
 </LinearLayout>

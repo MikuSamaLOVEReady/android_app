@@ -2,12 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="100dp"
+    android:layout_marginLeft="80dp"
+    android:layout_marginRight="80dp"
     android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/g3"
+        android:layout_gravity="center_horizontal"
+        />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="username:" />
+        android:layout_marginTop="20dp"
+        android:textColor="#6014D7"
+        android:textSize="20sp"
+        android:text="Username" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/username_EditText"
@@ -18,7 +31,10 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="User password:" />
+        android:paddingTop="10dp"
+        android:textColor="#6014D7"
+        android:textSize="20sp"
+        android:text="Password" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/password_EditText"
@@ -30,19 +46,29 @@
         android:id="@+id/login_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@layout/backgroud_homebutton"
+        android:layout_marginTop="10dp"
+        android:textColor="#FFF0F5"
         android:text="login_Button" />
 
     <Button
         android:id="@+id/Sign_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@layout/backgroud_homebutton"
+        android:layout_marginTop="10dp"
+        android:textColor="#FFF0F5"
         android:text="Sign_Button" />
 
 
     <Button
         android:id="@+id/seats"
+        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@layout/backgroud_homebutton"
+        android:layout_marginTop="10dp"
+        android:textColor="#FFF0F5"
         android:text="JUMP FOR JOY"/>
 
 

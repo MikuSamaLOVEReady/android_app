@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
@@ -13,6 +12,8 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import com.Cinema.myapplication.MainActivity;
+import com.Cinema.myapplication.PayActivity;
 import com.Cinema.myapplication.R;
 
 //会话框组件？
@@ -21,12 +22,16 @@ public class CustomDialog extends DialogFragment {
 
     //在这里创建了一个 键盘输入 查看
     private PasswordView pwdView;
-    private String name="123456";
+    private String password="123456";
     private String ko;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+
+        //获取用户支付密码
+        password= MainActivity.UserPassword;
 
         //初始化。
         Dialog dialog = new Dialog(getActivity(), R.style.Dialog);
@@ -66,15 +71,17 @@ public class CustomDialog extends DialogFragment {
             public void inputFinish() {
                 //获得 用户输入的密码
                 ko = pwdView.getStrPassword();
-                Log.e("111ok", "密码是" + name);
-
-                Log.e("111ok", "密码是" + ko);
 
                 //ko    是读取出的 用户输入的。
                 //name  是数据库中 用户的密码。
-                if (ko.equals(name)){
+                //这里 该咋弄？ 这里跳转到 PayFinishActivity 刚一跳转 就需要更新数据库才是
+                if (ko.equals(password)){
                     Intent intent =new Intent("com.Cinema.myapplication.ACTION_START");
                     //Log.e("fugang", "密码是" + pwdView.getStrPassword());
+
+                    //静态的 传输给 payfinish 从pay上得到
+                    intent.putExtra("TicketsNumber", PayActivity.Tic_number);
+
                     startActivity(intent);
                 }
 

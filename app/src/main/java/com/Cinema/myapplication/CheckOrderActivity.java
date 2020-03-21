@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -28,71 +27,35 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+public class CheckOrderActivity extends AppCompatActivity {
+    //先获取一首用户ID
+    Integer uid =MainActivity.UID;
+
+    public static ArrayList<Map<String, Object>> Order_list = new ArrayList<Map<String, Object>>();
 
 
-public class ScheduleActivity  extends AppCompatActivity {
-
-
-    ArrayList<Map<String, Object>> Arrange_list = new ArrayList<Map<String, Object>>();
-
+    private ListView listView_order;//用于获取xml中的 布局对象
     private Mybaseadapter list_item;
-
-    private ListView listView;
-
-
-    private String FilmID;
-
-    private int PosterID;
-
-    private ImageView image;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_schedul);
+        setContentView(R.layout.activity_order);
 
-        //拿到这个ID
-        Intent intent=getIntent();
-        FilmID=intent.getStringExtra("FilmID");
-
-        //接受海报ID
-        PosterID =intent.getIntExtra("Position",-1);
-        //漂亮！没给老子传过来
-        System.out.println(PosterID);
+        CheckOrderResponse();
 
 
-        ScheduleResponse();
-        //需不需要呢？？？？
-        //每个电影的 整体海报
-
-        /*
-        image =(ImageView) findViewById(R.id.Select_poster);
-        //设置
-        image.setImageBitmap((Bitmap) HomeFragment.Info_list.get(PosterID).get("image"));
-        System.out.println(HomeFragment.Info_list.get(PosterID).get("image"));
-
-         */
-
-
-
-        //System.out.println(FilmID);
-        listView = (ListView)findViewById(R.id.listv2);
-
-
+        listView_order = (ListView)findViewById(R.id.orderList); //得到ListView对象的引用
     }
 
-    private void ScheduleResponse()
+    private void CheckOrderResponse()
     {
 
-        String url = "http://192.168.101.102:5000/user_schedule";
-
-
+        String url = "http://192.168.101.102:5000/check_orders";
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder formBuilder = new FormBody.Builder();
         //添加键值对映射
-        formBuilder.add("filmid", FilmID);
+        formBuilder.add("UserID", uid.toString());
 
         Request request = new Request.Builder().url(url).post(formBuilder.build()).build();
 
@@ -118,15 +81,15 @@ public class ScheduleActivity  extends AppCompatActivity {
                 final String res = response.body().string();
 
 
-                //System.out.println(res);
+                System.out.println(res);
 
 
                 runOnUiThread(new Runnable() {
                     public void run() {
                         try{
                             JSONObject Jobject = new JSONObject(res);
-                            //在这个 集合中找到名字为 All_info 的json数组。
-                            JSONArray Jarray = Jobject.getJSONArray("all_schedul_info");
+                            //在这个 集合中找到名字为 own_order_info 的json数组。
+                            JSONArray Jarray = Jobject.getJSONArray("own_order_info");
                             //数组中的每个元素 其实是包含了一种电影的所有信息
                             for(int i=0;i<Jarray.length();i++)
                             {
@@ -135,19 +98,23 @@ public class ScheduleActivity  extends AppCompatActivity {
                                 //解析的时候 也要带上ID
 
 
-                                int    ID  = jsonObject.getInt("ID");
-                                String room=jsonObject.getString("Room");
-                                String date=jsonObject.getString("Date");
-                                String time=jsonObject.getString("Time");
-                                String price=jsonObject.getString("Price");
+                                int    ID  = jsonObject.getInt("OrderID");
+                                String room=jsonObject.getString("Room");//这个地方包含了影厅吧。。
+                                String seatID=jsonObject.getString("SeatID");
+                                String time=jsonObject.getString("CurrentTime");
+                                String start = jsonObject.getString("StartTime");
+                                String date = jsonObject.getString("date");
+                                //String price=jsonObject.getString("Price");
 
 
-                                map.put("ID",ID);
+                                map.put("OrderID",ID);
                                 map.put("Room",room);
-                                map.put("Date",date);
-                                map.put("Time",time);
-                                map.put("Price",price);
-                                Arrange_list.add(map);
+                                map.put("SeatID",seatID);
+                                map.put("CurrentTime",time);
+                                map.put("StartTime",start);
+                                map.put("date",date);
+
+                                Order_list.add(map);
                                 //System.out.println(Arrange_list.toString());
                             }
 
@@ -156,7 +123,7 @@ public class ScheduleActivity  extends AppCompatActivity {
                             e.printStackTrace();
                         }
                         list_item = new Mybaseadapter();
-                        listView.setAdapter(list_item);
+                        listView_order.setAdapter(list_item);
 
                     }
                 });
@@ -172,12 +139,12 @@ public class ScheduleActivity  extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return Arrange_list.size();
+            return Order_list.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return Arrange_list.get(position);
+            return Order_list.get(position);
         }
 
         @Override
@@ -188,33 +155,42 @@ public class ScheduleActivity  extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ViewHolder viewHolder = new ViewHolder();
+           ViewHolder viewHolder = new ViewHolder();
 
             if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.view_schedul, null);
+                convertView = getLayoutInflater().inflate(R.layout.view_order, null);
 
-                viewHolder.room    = (TextView) convertView.findViewById(R.id.room);
+                viewHolder.Film_room    = (TextView) convertView.findViewById(R.id.Film_room);
+                viewHolder.Start_time   = (TextView) convertView.findViewById(R.id.Start_time);
                 viewHolder.date   = (TextView) convertView.findViewById(R.id.date);
-                viewHolder.time   = (TextView) convertView.findViewById(R.id.time);
-                viewHolder.price  =(TextView) convertView.findViewById(R.id.price);
-                viewHolder.select_seats =(Button) convertView.findViewById(R.id.button_Select);
+                viewHolder.SeatID   = (TextView) convertView.findViewById(R.id.SeatID);
+                //viewHolder.price  =(TextView) convertView.findViewById(R.id.price);
+                viewHolder.select_order =(Button) convertView.findViewById(R.id.OrderButton);
 
                 convertView.setTag(viewHolder);}
             else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
-            viewHolder.room.setText(Arrange_list.get(position).get("Room").toString());
-            viewHolder.date.setText(Arrange_list.get(position).get("Date").toString());
-            viewHolder.time.setText(Arrange_list.get(position).get("Time").toString());
-            viewHolder.price.setText(Arrange_list.get(position).get("Price").toString());
-            final String FID = Arrange_list.get(position).get("ID").toString();
-            viewHolder.select_seats.setOnClickListener(new View.OnClickListener() {
+            viewHolder.Film_room.setText(Order_list.get(position).get("Room").toString());
+            viewHolder.Start_time.setText(Order_list.get(position).get("StartTime").toString());
+            viewHolder.date.setText(Order_list.get(position).get("date").toString());
+            viewHolder.SeatID.setText(Order_list.get(position).get("SeatID").toString());
+            final String SeatID = Order_list.get(position).get("SeatID").toString();
+
+
+            //final String FID = Arrange_list.get(position).get("ID").toString();
+            viewHolder.select_order.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent=new Intent(ScheduleActivity.this,SelectSeatActivity.class);
-                    //这里还需要传递一个price 才对。。
-                    //System.out.println(FID);
-                    intent.putExtra("ScheduleID",FID);
+
+                    //还没有单独设计 每个订单的页面。。我感觉不需要吧。。？？待定
+                    Intent intent=new Intent(CheckOrderActivity.this,OrderDetailActivity.class);
+                    //这里还需要传递一个price 才对。
+                    //
+
+                    //先把ID 传过去 做解析
+                    intent.putExtra("SeatID",Integer.valueOf(SeatID));
+
                     startActivity(intent);
                 }
             });
@@ -225,16 +201,19 @@ public class ScheduleActivity  extends AppCompatActivity {
 
     //这里放的都是 子layout中的ID
     class ViewHolder {
-        TextView room;
+        TextView Film_room;
+        TextView Start_time;
         TextView date;
-        TextView time;
-        TextView price;
-        Button   select_seats;
+        TextView SeatID;
+
+        //TextView price;
+        Button select_order;
 
 
         //ImageView image;
         //Button schedule_button;
     }
+
 
 
 }

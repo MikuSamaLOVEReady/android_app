@@ -260,20 +260,18 @@ public class RoomTable extends View {
         float translateX = getTranslateX();
         float translateY = getTranslateY();
 
-
+         // 0->9
         for(int i = 0;i<row;i++){
             //这个top 是指渲染的 高度区间 也就得到了 每一行座位的坐标
             float top = i * seatBitmap.getHeight() + i * spacing_between_font_back  + translateY;
             //这个是他的下限位置，
             float bottom = top + seatBitmap.getHeight();
 
-            //？？？？？？？？？？？？？？？？？？？？？？？？？？？？？
-            //这个不知道是为啥？
             if (bottom < 0 || top > getHeight()) {
                 continue;
             }
 
-
+            //0->14
             for(int j=0 ;j<column;j++){
 
                 //这里的 left 和 right 是他所能渲染的区间
@@ -283,13 +281,11 @@ public class RoomTable extends View {
                 // 右边的 像素位置么？ 左边界+ 一个像素座位长（愿图片的宽度X （如果我们任选别的图片的话
                 // 这里是源文件和 实际渲染的比例，但我的用的是他的 图片这里直接 给1 就很OK） X 一个缩放比比例 ）
                 float right = (left + seatBitmap.getWidth());
-
                 //？？？？？？？？？？？？？？？？？？？？？？？？？？？？？
                 //判断下 是否当前位置ok
                 if (right < 0 || left > getWidth()) {
                     continue;
                 }
-
                 //用他的 横纵坐标 来学定下 当前需要渲染的座位的 状态
                 int seatStatus = getSeatType(i, j);
 
@@ -298,22 +294,6 @@ public class RoomTable extends View {
                 //找到渲染的起始点位
                 tempMatrix.setTranslate(left, top);
 
-                //preXXX 不会重置Matrix，相当于当前操作矩阵(A)左乘参数矩阵(B)，即AB。例：
-                //当前操作矩阵(A)->maxtrix
-                //乘参数矩阵(B)-》括号里面的
-                //matrix.preScale(2,2);
-                //post 就是相反  把当前操作矩阵 放到目标矩阵后面
-                //BA
-
-
-                //按理来说 这个地方 先是图片自身 缩放
-                //这个api的第一个参数是X轴的缩放大小，第二个参数是Y轴的缩放大小，第三四个参数是缩放中心点。
-                //一般这个缩放中心点比较不好理解。这个中心点并不一定在图片的中心位置。有可能在图片的外面。我们可以这样理解。以这个中心点为坐标原点画X轴跟Y轴。图片可能会跟X轴或者Y轴相交，也可能完全在一个区间内。
-                //还是画图比较好理解。
-                //————————————————
-               // tempMatrix.postScale(1, 1, left, top);
-                // 当然  这个也是缩放矩阵 大缩放的是用户手指 操作。。淦 还没到这么后面 老子就设成1 了怎么样嘛！打老子塞
-               // tempMatrix.postScale(1, 1, left, top);
 
                 switch (seatStatus) {
                     case SEAT_TYPE_AVAILABLE:
@@ -529,6 +509,8 @@ public class RoomTable extends View {
 
 
     //-——————————————————————————图片点击响应事件-——————————————————————————//
+    int lastX;
+    int lastY;
     @Override
     public boolean onTouchEvent (MotionEvent event){
         int y = (int) event.getY();
@@ -549,27 +531,24 @@ public class RoomTable extends View {
                 downX = x;
                 downY = y;
                 //isDrawOverview = true;
-                //handler.removeCallbacks(hideOverviewRunnable);
+                handler.removeCallbacks(hideOverviewRunnable);
                 invalidate();
                 break;
              // press gesture (between {@link #ACTION_DOWN} and {@link #ACTION_UP}).
             //在你 按下过后 但没有放手之前
             case MotionEvent.ACTION_MOVE:
-                break;
-                /*
                 if (!isScaling && !isOnClick) {
                     int downDX = Math.abs(x - downX);
                     int downDY = Math.abs(y - downY);
                     if ((downDX > 10 || downDY > 10) && !pointer) {
-                        //int dx = x - lastX;
-                        //int dy = y - lastY;
-                        //matrix.postTranslate(dx, dy);
+                        int dx = x - lastX;
+                        int dy = y - lastY;
+                        matrix.postTranslate(dx, dy);
                         invalidate();
                     }
 
                 }
                 break;
-                 */
             //按下了 然后又松手了
             case MotionEvent.ACTION_UP:
                 handler.postDelayed(hideOverviewRunnable, 1500);
@@ -582,6 +561,8 @@ public class RoomTable extends View {
 
                 break;
         }
+        lastY = y;
+        lastX = x;
         return true;
     }
 

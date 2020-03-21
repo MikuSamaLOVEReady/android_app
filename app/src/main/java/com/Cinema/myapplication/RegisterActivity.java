@@ -140,14 +140,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             @Override
             public void onResponse( Call call,  Response response) throws IOException {
-                final String result = response.body().toString();
-
+                final String result = response.body().string();
+                System.out.println(result);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         //返回 注册账号已存在
                         if(result.equals("1")){
-                            showWarnSweetDialog("WDNMD 你号被人注册了");
+                            showWarnSweetDialog("此账号已注册了");
                         }
                         //返回 注册成功 这样可以直接 进入主界面了
                         else{

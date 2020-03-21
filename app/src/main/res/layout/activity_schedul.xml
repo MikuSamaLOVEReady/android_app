@@ -4,6 +4,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@layout/shape"
+            android:layout_gravity="center_horizontal"
+            android:text="Date" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@layout/shape"
+            android:layout_gravity="center_horizontal"
+            android:text="Time" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@layout/shape"
+            android:layout_gravity="center_horizontal"
+            android:text="Room" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@layout/shape"
+            android:layout_gravity="center_horizontal"
+            android:text="Price" />
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:background="@layout/shape"
+            android:layout_gravity="center_horizontal"
+            android:text="Option" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/listv2"

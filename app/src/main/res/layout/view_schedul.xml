@@ -1,66 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent">
     <LinearLayout
         android:id="@+id/line1"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="2dip"
-        android:layout_marginRight="2dip"
-        android:layout_marginTop="2dip"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="2dip"
-            android:layout_marginTop="2dip"
-            android:layout_marginRight="2dip"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:id="@+id/room"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="start"
-                android:text="Room：" />
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/date"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="start"
-                android:text="Date：" />
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="#6014D7"
+                android:textSize="18sp"
+                android:text="Mar 1st" />
 
             <TextView
                 android:id="@+id/time"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="start"
-                android:text="Time：" />
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="#6014D7"
+                android:textSize="20sp"
+                android:text="18:00" />
+
+            <TextView
+                android:id="@+id/room"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:textColor="#6014D7"
+                android:textSize="20sp"
+                android:text="No.1" />
 
             <TextView
                 android:id="@+id/price"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:gravity="start"
-                android:text="Price：" />
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:text="$10"
+                android:textColor="#6014D7"
+                android:textSize="20sp" />
 
             <Button
-                android:id="@+id/button_buy"
-                android:layout_width="match_parent"
+                android:id="@+id/button_Select"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Buy Now!" />
+                android:background="@layout/backgroud_homebutton"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="#FFF0F5"
+                android:text="Buy" />
         </LinearLayout>
 
     </LinearLayout>

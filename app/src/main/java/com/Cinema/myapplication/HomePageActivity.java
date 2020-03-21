@@ -33,7 +33,7 @@ import okhttp3.Response;
 public class HomePageActivity extends AppCompatActivity {
 
 
-    ArrayList<Map<String, Object>> Info_list = new ArrayList<Map<String, Object>>();
+    public static ArrayList<Map<String, Object>> Info_list = new ArrayList<Map<String, Object>>();
 
 
     //储存 从UTF-8->bytes值
@@ -47,6 +47,8 @@ public class HomePageActivity extends AppCompatActivity {
 
 
 
+
+
     private ListView listView;//用于获取xml中的 布局对象
 
     protected void onCreate(Bundle savedInstanceState)
@@ -54,7 +56,9 @@ public class HomePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //Info_list.clear();
         HomepageResponse();
-        //System.out.println(Info_list.size());  //==0
+
+
+
 
         setContentView(R.layout.activity_home);
 
@@ -101,7 +105,7 @@ public class HomePageActivity extends AppCompatActivity {
             {
                 response.header("Connection","close");
                 final String res = response.body().string();
-                System.out.println(res);
+                //System.out.println(res);
                 //将重负荷的任务移除到工作线程避免主线程阻塞，
                 // 当需要更新UI的时候我们需要“返回”到主线程，因为只有它才可以更新应用 UI。
                 runOnUiThread(new Runnable() {
@@ -143,7 +147,7 @@ public class HomePageActivity extends AppCompatActivity {
                                 map.put("Blurb",blurb);
                                 map.put("image",bitmap);
                                 Info_list.add(map);
-                                System.out.println(Info_list.toString());
+                                //System.out.println(Info_list.toString());
 
                             }
 
@@ -162,6 +166,13 @@ public class HomePageActivity extends AppCompatActivity {
 
     }
 
+
+
+
+
+
+
+    //布局适配器
     public class Mybaseadapter extends BaseAdapter {
 
 
@@ -181,7 +192,7 @@ public class HomePageActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView( int position, View convertView, ViewGroup parent) {
 
             ViewHolder viewHolder = new ViewHolder();
 
@@ -198,6 +209,7 @@ public class HomePageActivity extends AppCompatActivity {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
             final String FID =  Info_list.get(position).get("FilmID").toString();
+            final int PosterID =  position;
             viewHolder.FilmName.setText(Info_list.get(position).get("FilmName").toString());
             viewHolder.Blurb.setText(Info_list.get(position).get("Blurb").toString());
             viewHolder.image.setImageBitmap((Bitmap) Info_list.get(position).get("image"));
@@ -214,7 +226,11 @@ public class HomePageActivity extends AppCompatActivity {
                     //Activity_Change_back();
                      */
                     Intent intent=new Intent(HomePageActivity.this,ScheduleActivity.class);
+                    //给订单用的FID
                     intent.putExtra("FilmID",FID);
+                    //用于显示 海报
+                    intent.putExtra("Position",PosterID);
+
                     startActivity(intent);
 
                 }
