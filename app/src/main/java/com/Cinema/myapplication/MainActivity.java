@@ -21,6 +21,8 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
+import static com.Cinema.myapplication.tool.ServerIP.LoginURL;
 //文字输入栏
 //响应对话框UI
 //原来是尼玛 spport。design 里面的东西
@@ -44,6 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public static int UID;
     public static String UserPassword;
+    public static String UserEmail;
+    public static String UserNickName;
+
 
 
     private Button JumpButton;
@@ -66,16 +71,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+  /*暂时没用了
         JumpButton =  (Button) findViewById(R.id.seats);
 
-        /*暂时没用了
+
         JumpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(MainActivity.this,SelectSeatActivity.class);
+                Intent intent =new Intent(MainActivity.this,VerificationActivity.class);
                 startActivity(intent);
             }
         });
+
          */
         //测试button
 
@@ -87,14 +94,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v)
     {
-        String userName = userNameEdit.getText().toString();
-        username = userName;
+        String email = userNameEdit.getText().toString();
+        username = email;
         String passWord = passWordEdit.getText().toString();
 
         switch (v.getId())
         {
             case R.id.login_Button:
-                if(userName.equals("")||passWord.equals(""))
+                if(email.equals("")||passWord.equals(""))
                 {
 
                     //System.out.println("账号密码不能为空");
@@ -102,14 +109,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     return;
                 }
 
-                if(Character.isDigit(userName.charAt(0)))
-                {
-                    //System.out.println("账号不能以数字开头");
-                    showWarnSweetDialog("账号不能以数字开头");
-                    return;
-                }
-                String url = "http://192.168.101.102:5000/app/user";
-                LoginResponse(url,userName,passWord);
+
+                String url = LoginURL;
+                //String url = "http://192.168.101.102:5000/app_user";
+                LoginResponse(url,email,passWord);
                 //System.out.println("发送链接～");
                 break;
             case R.id.Sign_Button:
@@ -123,14 +126,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //登陆 响应
-    private void LoginResponse(String url,final String userName,String passWord)
+    private void LoginResponse(String url,final String email,String passWord)
     {
         //创建链接
         OkHttpClient client = new OkHttpClient();
         //创建okhttp 的表单——————>创建器 它还不是最终的 内容
         FormBody.Builder formBuilder = new FormBody.Builder();
         //添加键值对映射
-        formBuilder.add("username", userName);
+        formBuilder.add("Address", email);
         formBuilder.add("password", passWord);
         //创建请求 指定请求类型为post 在post内正式创建内容，并且对于request 来说直接可以通过new 他的builder来创建本体
         Request request = new Request.Builder().url(url).post(formBuilder.build()).build();
@@ -167,19 +170,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (res.equals("N"))
                         {
                             //System.out.println("无此账号,请先注册");
-                            showWarnSweetDialog("无此账号,请先注册");
+                            showWarnSweetDialog("can not find this account");
                         }
                         else if(res.equals("M"))
                         {
                             //System.out.println("密码不正确");
-                            showWarnSweetDialog("密码不正确");
+                            showWarnSweetDialog("wrong password");
                         }
                         else//成功
                         {
-                            String[] result =res.split("\\.");
+                            String[] result =res.split("\\s");
                             UID=Integer.parseInt(result[0]);
                             UserPassword=result[1];
-                            System.out.println(UID+UserPassword);
+                            UserEmail=result[2];
+                            UserNickName =result[3];
+                            System.out.println(UID+UserPassword+UserEmail+UserNickName);
+                            SelectSeatActivity.isLogin=1;
+                            NewMemberActivity.tourist=0;
                             Activity_Change();
                         }
 
@@ -216,7 +223,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //注册界面 切换
      private void Activity_Change_Register(){
        //第一个参数是 当前场景， 第二个是跳转的目的地
-       Intent intent =new Intent(MainActivity.this,RegisterActivity.class);
+       Intent intent =new Intent(MainActivity.this,VerificationActivity.class);
        startActivity(intent);
     }
 

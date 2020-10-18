@@ -360,7 +360,7 @@ public class RoomTable extends View {
         pathPaint.setColor(Color.BLACK);
         pathPaint.setTextSize(20 * getMatrixScaleX());
         //getBaseLine这个是距离y轴的距离啊
-        canvas.drawText("荧幕", centerX - pathPaint.measureText("荧幕") / 2, getBaseLine(pathPaint, startY, startY + screenHeight * getMatrixScaleY()), pathPaint);
+        canvas.drawText("Screen", centerX - pathPaint.measureText("Screen") / 2, getBaseLine(pathPaint, startY, startY + screenHeight * getMatrixScaleY()), pathPaint);
     }
 
     //
@@ -432,12 +432,12 @@ public class RoomTable extends View {
 
     //渲染 对不同 电影作为的不同解释
     Bitmap drawHeadInfo() {
-        String txt = "已售";
+        String txt = "sold";
         float txtY = getBaseLine(headPaint, 0, headHeight);
         //这个是计算 文字的宽度函数
         int txtWidth = (int) headPaint.measureText(txt);
         float spacing = dip2Px(10);
-        float spacing1 = dip2Px(5);
+        float spacing1 = dip2Px(15);
         float y = (headHeight - seatBitmap.getHeight()) / 2;
 
         float width = seatBitmap.getWidth() + spacing1 + txtWidth + spacing + seatSoldBitmap.getWidth() + txtWidth + spacing1 + spacing + checkedSeatBitmap.getHeight() + spacing1 + txtWidth;
@@ -456,21 +456,21 @@ public class RoomTable extends View {
         tempMatrix.setScale(1,1);//这里缩放量都给1 ————————————————————————————
         tempMatrix.postTranslate(startX,(headHeight - defaultImgH) / 2);
         canvas.drawBitmap(seatBitmap, tempMatrix, headPaint);
-        canvas.drawText("可选", startX + defaultImgW + spacing1, txtY, headPaint);
+        canvas.drawText("unsold", startX + defaultImgW + spacing1, txtY, headPaint);
 
         //已经售出的
         float soldSeatBitmapY = startX + seatBitmap.getWidth() + spacing1 + txtWidth + spacing;
         tempMatrix.setScale(1,1);
         tempMatrix.postTranslate(soldSeatBitmapY,(headHeight - defaultImgH) / 2);
         canvas.drawBitmap(seatSoldBitmap, tempMatrix, headPaint);
-        canvas.drawText("已售", soldSeatBitmapY + defaultImgW + spacing1, txtY, headPaint);
+        canvas.drawText("sold", soldSeatBitmapY + defaultImgW + spacing1, txtY, headPaint);
 
         //被选中的
         float checkedSeatBitmapX = soldSeatBitmapY + seatSoldBitmap.getWidth() + spacing1 + txtWidth + spacing;
         tempMatrix.setScale(1,1);
         tempMatrix.postTranslate(checkedSeatBitmapX,y);
         canvas.drawBitmap(checkedSeatBitmap, tempMatrix, headPaint);
-        canvas.drawText("已选", checkedSeatBitmapX + spacing1 + defaultImgW, txtY, headPaint);
+        canvas.drawText("selected", checkedSeatBitmapX + spacing1 + defaultImgW, txtY, headPaint);
 
         //绘制分割线
         headPaint.setStrokeWidth(1);
@@ -481,9 +481,6 @@ public class RoomTable extends View {
         return bitmap;
 
     }
-
-
-
 
 
 
@@ -648,7 +645,7 @@ public class RoomTable extends View {
                                 {
 
                                 if (selects.size() >= 3) {
-                                    Toast.makeText(getContext(), "最多只能选择" + 3 + "个", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Maximum to select " + 3 + " seats", Toast.LENGTH_SHORT).show();
                                     return super.onSingleTapConfirmed(e);
                                 }
 

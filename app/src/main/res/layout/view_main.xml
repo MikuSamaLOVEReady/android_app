@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@layout/backgroud_searchbar"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <LinearLayout
@@ -25,29 +26,54 @@
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/filmname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
                     android:text="Film Name："
-                    android:textColor="#6014D7"
-                    android:textSize="25sp" />
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/blurb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_weight="5"
-                    android:gravity="center_horizontal"
-                    android:textColor="#6014D7"
-                    android:textSize="30sp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
                     android:text="Blurb：" />
+
+                <TextView
+                    android:id="@+id/rank"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:text="Rank：" />
+
+                <TextView
+                    android:id="@+id/director"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:text="Director：" />
+
+                <TextView
+                    android:id="@+id/leadactors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:text="Leadactors：" />
+
 
             </LinearLayout>
 
@@ -59,7 +85,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/Film_detail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -77,6 +103,7 @@
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@layout/backgroud_homebutton"
                 android:layout_marginTop="10dp"
                 android:textColor="#FFF0F5"

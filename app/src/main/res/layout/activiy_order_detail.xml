@@ -3,108 +3,119 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="#DDA0DD"
     android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="189dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="200dp"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="208dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:text="TextView" />
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:text="TextView" />
-        </LinearLayout>
-
         <ImageView
-            android:id="@+id/imageView5"
-            android:layout_width="wrap_content"
+            android:id="@+id/PosterView"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/filename"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="#000000"
+            android:textSize="40sp"
+            android:text="TextView" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@layout/background"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:text="date " />
+
+        <TextView
+            android:id="@+id/starttime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:text="time " />
+
+        <TextView
+            android:id="@+id/room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:text="Room number " />
+
+        <TextView
+            android:id="@+id/RowNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:text="row" />
+
+        <TextView
+            android:id="@+id/ColumNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#000000"
+            android:textSize="25dp"
+            android:text="column" />
+
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:orientation="vertical">
 
-        <Space
+        <Button
+            android:id="@+id/buttonHome"
             android:layout_width="match_parent"
-            android:layout_height="39dp" />
+            android:layout_height="wrap_content"
+            android:background="@layout/backgroud_homebutton"
+            android:layout_marginTop="15dp"
+            android:textColor="#FFF0F5"
+            android:textSize="15sp"
+            android:text="Back TO homepage" />
 
-        <LinearLayout
+        <Button
+            android:id="@+id/printTicket"
             android:layout_width="match_parent"
-            android:layout_height="175dp"
-            android:orientation="horizontal">
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <ImageView
-                android:id="@+id/imageView7"
-                android:layout_width="22dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/payfinish"
-                tools:srcCompat="@tools:sample/avatars" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
-                android:layout_height="143dp"
-                android:text="Button" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="191dp"
-                android:text="Button" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:background="@layout/backgroud_homebutton"
+            android:layout_marginTop="15dp"
+            android:textColor="#FFF0F5"
+            android:textSize="15sp"
+            android:text="Send the ticket to me" />
     </LinearLayout>
-
-
 </LinearLayout>

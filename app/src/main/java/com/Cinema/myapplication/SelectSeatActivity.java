@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.Cinema.myapplication.SelectTableClass.RoomTable;
 
@@ -20,6 +22,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.Cinema.myapplication.tool.ServerIP.Get_soldURL;
+
 public class SelectSeatActivity extends AppCompatActivity {
 
     //我打算 安排的10X10的厅 后端直接传回 ID
@@ -32,6 +36,9 @@ public class SelectSeatActivity extends AppCompatActivity {
 
     //用于从前一个跳转 传递价格
     public int price;
+
+    public ConstraintLayout constraintLayout;
+
 
     //接受一下 scheduleID
 
@@ -51,7 +58,24 @@ public class SelectSeatActivity extends AppCompatActivity {
     public static int SID;
 
 
+    //获取 电影ID
+    public String FID_str;
+    //这个才是最后要用的 全局SID
+    public static int FID;
+
+
+    public String each_price;
+
+
     public int[] ints;
+
+
+    //作为登陆标志
+    public static int isLogin = 0;
+
+    //作为游客只够买一次的标志
+    //public static int justbuy = 0;
+
 
 
 
@@ -72,6 +96,10 @@ public class SelectSeatActivity extends AppCompatActivity {
         selec_info3.setVisibility(View.INVISIBLE);
 
 
+        constraintLayout = findViewById(R.id.showbuy);
+        constraintLayout.setVisibility(View.INVISIBLE);
+
+
         //获取一下 所对应scheduleID  --先从int-》str——》int贼复杂！草了
         Intent intent=getIntent();
         //第二个参数表示没有接收到的时候 给的默认值
@@ -79,6 +107,16 @@ public class SelectSeatActivity extends AppCompatActivity {
         //System.out.println(SID_str+"string 模式的局部变量——接受的内容！！！！！！！！！！！");
         SID=Integer.parseInt(SID_str);
         //System.out.println(SID+"数字版内容");
+
+        FID_str =intent.getStringExtra("FilmID");
+        //System.out.println(SID_str+"string 模式的局部变量——接受的内容！！！！！！！！！！！");
+        FID=Integer.parseInt(FID_str);
+        //System.out.println(SID+"数字版内容");
+
+
+        each_price = intent.getStringExtra("Price");
+
+
 
         //先查询下 所有被卖掉的座位
         CheckSoldResponse();
@@ -94,32 +132,46 @@ public class SelectSeatActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //记录所有座位ID 初始化 全是0 表示没有一个有效ID
-                int seatID[] = {0,0,0};
-
-                //每次 都检查一哈 一共 有几个票
-                int count = 0;
-                for(int i =0;i<3; i++){
-                    //这个i 也是对应的 [85, -1, 99] 如果是这中 seatID【85，-1，99】
-                    if(seats_Check.get(i)!=-1){
-                        //如果不是-1则表示有ID
-                        seatID[i]=seats_Check.get(i);
-                        count++;
-                    }
+                //既没登陆也不是游客认证的用户。跳转到 询问是否要加入的页面
+                System.out.println(isLogin+"     "+NewMemberActivity.tourist);
+                if(isLogin==0&&NewMemberActivity.tourist==0){
+                    Toast.makeText(SelectSeatActivity.this, "welcome！ ", Toast.LENGTH_SHORT).show();
+                    Intent login = new Intent(SelectSeatActivity.this, NewMemberActivity.class);
+                    startActivityForResult(login, 0);
                 }
-                number_of_ticket= count;
+                else {
+                    //记录所有座位ID 初始化 全是0 表示没有一个有效ID
+                    int seatID[] = {0, 0, 0};
 
-                //发给select->payactivity->customdialog->payfinish
-                Intent intent =new Intent(SelectSeatActivity.this,PayActivity.class);
-                //传出 订单数量
-                intent.putExtra("TicketsNumber",number_of_ticket);
-                //传出 每个订单的座位ID
-                intent.putExtra("seatID1",seatID[0]);
-                intent.putExtra("seatID2",seatID[1]);
-                intent.putExtra("seatID3",seatID[2]);
+                    //每次 都检查一哈 一共 有几个票
+                    int count = 0;
+                    for (int i = 0; i < 3; i++) {
+                        //这个i 也是对应的 [85, -1, 99] 如果是这中 seatID【85，-1，99】
+                        if (seats_Check.get(i) != -1) {
+                            //如果不是-1则表示有ID
+                            seatID[i] = seats_Check.get(i);
+                            count++;
+                        }
+                    }
+                    number_of_ticket = count;
 
-                startActivity(intent);
+                    //发给select->payactivity->customdialog->payfinish
+                    Intent intent = new Intent(SelectSeatActivity.this, PayActivity.class);
+                    //传出 订单数量
+                    intent.putExtra("TicketsNumber", number_of_ticket);
+                    //传出 每个订单的座位ID
+                    intent.putExtra("seatID1", seatID[0]);
+                    intent.putExtra("seatID2", seatID[1]);
+                    intent.putExtra("seatID3", seatID[2]);
+
+                    intent.putExtra("each_price",each_price);
+
+                    //传price
+
+
+                    startActivity(intent);
+                }
+
             }
         });
 
@@ -184,29 +236,30 @@ public class SelectSeatActivity extends AppCompatActivity {
                 //flag 表示 是否更改当前 内容  0表示 需要修改   1表示不需要
                 if(haveSelect()){
                     btn.setVisibility(View.VISIBLE);
+                    constraintLayout.setVisibility(View.VISIBLE);
                     if(seats_Check.get(0)!=-1){
                         selec_info1.setVisibility(View.VISIBLE);
                         if(flag[0]==0) {
-                            selec_info1.setText("row" + row + "   " + "column" + column + "\n" + "Price:23$ ");
+                            selec_info1.setText("row" + (row+1) + "   " + "column" + column + "\n" +"Price"+each_price);
                             flag[0]=1;
                         }
                     }
                     if(seats_Check.get(1)!=-1){
                         selec_info2.setVisibility(View.VISIBLE);
+                        constraintLayout.setVisibility(View.VISIBLE);
                         if(flag[1]==0) {
-                            selec_info2.setText("row" + row + "   " + "column" + column + "\n" + "Price:23$ ");
+                            selec_info2.setText("row" + (row+1) + "   " + "column" + column + "\n" +"Price"+ each_price);
                             flag[1]=1;
                         }
                     }
                     if(seats_Check.get(2)!=-1){
                         selec_info3.setVisibility(View.VISIBLE);
+                        constraintLayout.setVisibility(View.VISIBLE);
                         if(flag[2]==0) {
-                            selec_info3.setText("row" + row + "   " + "column" + column + "\n" + "Price:23$ ");
+                            selec_info3.setText("row" + (row+1) + "   " + "column" + column + "\n" +"Price"+ each_price);
                             flag[2]=1;
                         }
                     }
-
-                    //selec_info.append("row"+row+"   "+"column"+column+"\n"+"Price：");
 
                 }
 
@@ -243,14 +296,9 @@ public class SelectSeatActivity extends AppCompatActivity {
                 }
 
 
-
-                //暂时不remove
-                //seats_Check.remove(Integer.valueOf(r_num));
-                //System.out.println(seats_Check);
-                //System.out.println(r_num);
-
                 if(!haveSelect()){
                     btn.setVisibility(View.INVISIBLE);
+                    constraintLayout.setVisibility(View.INVISIBLE);
 
                 }
 
@@ -263,7 +311,8 @@ public class SelectSeatActivity extends AppCompatActivity {
     private void CheckSoldResponse()
     {
 
-        String url = "http://192.168.101.102:5000/Get_sold";
+        String url = Get_soldURL;
+        //String url = "http://192.168.101.102:5000/Get_sold";
 
 
         OkHttpClient client = new OkHttpClient();
@@ -300,15 +349,10 @@ public class SelectSeatActivity extends AppCompatActivity {
                         ints[i] = Integer.parseInt(tokens[i]);
                     }
                 }
-
-
             }
         });
 
     }
-
-
-
 
 
    //如果三个位子全是 -1 则表示没选

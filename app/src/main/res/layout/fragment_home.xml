@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#DDA0DD"
     tools:context=".ui.home.HomeFragment">
 
     <LinearLayout
@@ -12,9 +13,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical" >
 
+        <SearchView
+            android:id="@+id/SearchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#DDA0DD"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp"
+            />
+
         <ListView
             android:id="@+id/listv"
             android:layout_width="match_parent"
+            android:divider="#00000000"
+            android:dividerHeight="10dp"
             android:layout_height="wrap_content" />
 
 

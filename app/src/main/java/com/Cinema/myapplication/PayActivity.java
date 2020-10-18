@@ -15,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.Cinema.myapplication.PayClass.CustomDialog;
 
+import java.util.ArrayList;
+
 public class PayActivity extends AppCompatActivity {
 
     private Button btn;
@@ -27,6 +29,10 @@ public class PayActivity extends AppCompatActivity {
     public static int seaID_3;
 
 
+    private TextView tic1;
+    private TextView tic2;
+    private TextView tic3;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +44,68 @@ public class PayActivity extends AppCompatActivity {
         //第二个参数表示没有接收到的时候 给的默认值
         Tic_number=intent.getIntExtra("TicketsNumber",-1);
 
+
+        ArrayList<Integer> seat_list = new ArrayList<Integer>();
+
+
         //接受座位
         seaID_1  =intent.getIntExtra("seatID1",0);
         seaID_2  =intent.getIntExtra("seatID2",0);
         seaID_3  =intent.getIntExtra("seatID3",0);
+
+        String price  =intent.getStringExtra("each_price");
+
+        seat_list.add(seaID_1);
+        seat_list.add(seaID_2);
+        seat_list.add(seaID_3);
+
+
+        String row="";
+        String col="";
+        // 拿到3个ID    count来数有效订单
+        int count=0;
+        for(int i = 0 ;i<3;i++){
+            if(seat_list.get(i)!=0){
+                int flag=0;
+                //重新 从seatID 获取到相应的 座位排号和行号
+                for(int m=0;m<10; m++){
+                    for(int n=0;n<15; n++){
+                        //System.out.println(i*15+j+1);
+                        if(m*15+n+1==seat_list.get(i)){
+                            flag=1;
+                            row=String.valueOf(m);
+                            col=String.valueOf(n);
+                            break;
+                        }
+                    }
+                    if(flag==1){
+                        break;
+                    }
+                }
+                count++;
+                if(count==1){
+                    tic1=(TextView) findViewById(R.id.tic1);
+                    tic1.setText("Row: "+row+"\n\r"+"Col: "+col+"\n\r"+price);
+
+                }
+                else if(count==2){
+                    tic1=(TextView) findViewById(R.id.tic2);
+                    tic1.setText("Row: "+row+"\n\r"+"Col: "+col+"\n\r"+price);
+
+                }
+                else if(count==3){
+                    tic1=(TextView) findViewById(R.id.tic3);
+                    tic1.setText("Row: "+row+"\n\r"+"Col: "+col+"\n\r"+price);
+
+                }
+
+            }
+
+        }
+
+
+
+
 
         //这里它是拿到了票的数量了
         //接下来 需要传递给 完成 活动

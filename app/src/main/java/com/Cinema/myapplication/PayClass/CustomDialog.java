@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.Cinema.myapplication.MainActivity;
+import com.Cinema.myapplication.NewMemberActivity;
 import com.Cinema.myapplication.PayActivity;
 import com.Cinema.myapplication.R;
 
@@ -22,7 +23,7 @@ public class CustomDialog extends DialogFragment {
 
     //在这里创建了一个 键盘输入 查看
     private PasswordView pwdView;
-    private String password="123456";
+    private String password="888888";
     private String ko;
 
     @NonNull
@@ -32,6 +33,9 @@ public class CustomDialog extends DialogFragment {
 
         //获取用户支付密码
         password= MainActivity.UserPassword;
+
+        //游客登陆模拟
+        if(NewMemberActivity.tourist==1) password="888888";
 
         //初始化。
         Dialog dialog = new Dialog(getActivity(), R.style.Dialog);

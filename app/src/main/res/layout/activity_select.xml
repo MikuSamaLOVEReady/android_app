@@ -12,42 +12,133 @@
 
     <com.Cinema.myapplication.SelectTableClass.RoomTable
         android:id="@+id/seatView"
-        android:layout_width="wrap_content"
+        android:layout_width="395dp"
         android:layout_height="wrap_content"
+        android:background="#ffffff"
         android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:background="#ffffff" />
+        android:focusableInTouchMode="true" />
 
-    <Button
-        android:id="@+id/buy_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/seatView"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-9dp"
-        android:text="Buy" />
 
-    <TextView
-        android:id="@+id/Current_ticket1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="Current_ticket1" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/showbuy"
+        android:layout_width="382dp"
+        android:layout_height="171dp"
+        android:background="@drawable/dark_color"
+        android:layout_alignBottom="@id/seatView"
+        tools:context=".SelectSeatActivity">
 
-    <TextView
-        android:id="@+id/Current_ticket2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/Current_ticket1"
-        android:layout_alignParentBottom="true"
-        android:text="Current_ticket2" />
-    <TextView
-        android:id="@+id/Current_ticket3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/Current_ticket2"
-        android:layout_alignParentBottom="true"
-        android:text="Current_ticket3" />
+
+
+
+        <LinearLayout
+            android:id="@+id/allinfo"
+            android:layout_width="match_parent"
+            android:layout_height="0sp"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/buy_button"
+            tools:layout_editor_absoluteX="1dp"
+            tools:layout_editor_absoluteY="1dp">
+
+
+
+            <LinearLayout
+                android:id="@+id/Moieinfo"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="15"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/alltickets"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="1dp">
+            </LinearLayout>
+
+
+
+            <View
+                android:id="@+id/dash"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:layout_constraintTop_toBottomOf="@+id/Moieinfo"
+                android:background="#555555" />
+
+            <LinearLayout
+                android:id="@+id/alltickets"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toTopOf="@+id/buy_button"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Moieinfo"
+                android:layout_marginBottom="5dp"
+                tools:layout_editor_absoluteX="1dp"
+                tools:layout_editor_absoluteY="1dp">
+
+                <TextView
+                    android:id="@+id/Current_ticket1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="10dp"
+                    android:layout_weight="1"
+                    android:background="@layout/backgroud_tics"
+                    android:text="Current_ticket2"
+                    android:textColor="#FFFFFF"
+                    app:layout_constraintBottom_toTopOf="@+id/buy_button"
+                    app:layout_constraintVertical_bias="0.044" />
+
+
+                <TextView
+                    android:id="@+id/Current_ticket2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Current_ticket2"
+                    android:background="@layout/backgroud_tics"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/buy_button"
+                    app:layout_constraintVertical_bias="0.044"
+                    app:layout_constraintLeft_toRightOf="@+id/Current_ticket1" />
+
+
+                <TextView
+                    android:id="@+id/Current_ticket3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Current_ticket3"
+                    android:background="@layout/backgroud_tics"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginRight="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/buy_button"
+                    app:layout_constraintVertical_bias="0.044"
+                    app:layout_constraintLeft_toRightOf="@+id/Current_ticket2" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+        <Button
+            android:id="@+id/buy_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@layout/background"
+            android:text="Buy"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 
 </RelativeLayout>
+

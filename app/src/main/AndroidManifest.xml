@@ -34,7 +34,7 @@
         <activity android:name=".PayActivity">
         </activity>
 
-        <activity android:name=".MainActivity" >
+        <activity android:name=".NavActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,10 +42,13 @@
             </intent-filter>
         </activity>
 
+
+
         <activity
-            android:name=".HomePageActivity"
-            android:label="HomePage">
+            android:name=".MainActivity"
+            android:label="Welcome">
         </activity>
+
 
         <activity
             android:name=".RegisterActivity"
@@ -63,19 +66,37 @@
         </activity>
 
         <activity
-            android:name=".NavActivity"
-            android:label="SELECT">
+            android:name=".HomePageActivity"
+            android:label="Nav">
         </activity>
 
         <activity
             android:name=".CheckOrderActivity"
-            android:label="SELECT">
+            android:label="CheckOrder">
         </activity>
 
         <activity
             android:name=".OrderDetailActivity"
-            android:label="SELECT">
+            android:label="OrderDetail">
         </activity>
+
+        <activity
+            android:name=".FilmDetailActivity"
+            android:label="FilmDetail">
+        </activity>
+
+        <activity
+            android:name=".NewMemberActivity"
+            android:label="Welcome">
+        </activity>
+
+
+        <activity
+            android:name=".VerificationActivity"
+            android:label="Verification">
+        </activity>
+
+
 
 
 

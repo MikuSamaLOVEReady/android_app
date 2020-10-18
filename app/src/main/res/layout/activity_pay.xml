@@ -1,73 +1,142 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#DDA0DD"
+    >
 
     <LinearLayout
         android:id="@+id/l1"
+        android:layout_marginBottom="30dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:background="@layout/background"
+                android:id="@+id/tic1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="tick1"
+                android:layout_weight="1"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:background="@layout/background"
+                android:id="@+id/tic2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="tick1"
+                android:layout_weight="1"
+                android:textSize="20sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:background="@layout/background"
+                android:id="@+id/tic3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="tick1"
+                android:layout_weight="1"
+                android:textSize="20sp" />
+
+
+
+
+        </LinearLayout>
+
         <TextView
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:text="请选择支付方式"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
 
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="10dp">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:drawableLeft="@drawable/alipay" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:drawableLeft="@drawable/wechat" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:drawableLeft="@drawable/paypal" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:drawableLeft="@drawable/union" />
-        </RadioGroup>
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:background="@layout/background_card"
-            android:onClick="card"
-            android:text="添加新卡进行支付" />
-
-        <TextView
-            android:id="@+id/card"
+        <ScrollView
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginTop="15dp"
-            android:text=""
-            android:textColor="#6014D7"
-            android:textSize="20sp" />
+            android:layout_height="wrap_content">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="20dp"
+                        android:drawableLeft="@drawable/alipay" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="20dp"
+                        android:drawableLeft="@drawable/wechat" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="20dp"
+                        android:drawableLeft="@drawable/paypal" />
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_marginLeft="20dp"
+                        android:drawableLeft="@drawable/union" />
+                </RadioGroup>
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:background="@layout/background_card"
+                    android:onClick="card"
+                    android:text="添加新卡进行支付" />
+
+                <TextView
+                    android:id="@+id/card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginTop="15dp"
+                    android:text=""
+                    android:textColor="#6014D7"
+                    android:textSize="20sp" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <Button
+            android:layout_gravity="bottom"
             android:id="@+id/btn_dialog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -79,6 +148,4 @@
             android:textColor="#FFF0F5"
             android:textSize="25sp" />
     </LinearLayout>
-
-
 </RelativeLayout>

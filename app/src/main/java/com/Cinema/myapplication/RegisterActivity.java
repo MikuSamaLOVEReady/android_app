@@ -20,6 +20,8 @@ import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import static com.Cinema.myapplication.tool.ServerIP.app_register1URL;
+
 //文字输入栏
 //响应对话框UI
 //原来是尼玛 spport。design 里面的东西
@@ -41,6 +43,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private String username;
 
+    private String email_address;
+
 
 
     @Override
@@ -48,6 +52,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register); // resource 文件夹
+
+
+        Intent intent=getIntent();
+        email_address = intent.getStringExtra("email");
 
         //按钮绑定
         submit = (Button) findViewById(R.id.user_submit);
@@ -85,8 +93,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         {
 
             //System.out.println("账号密码不能为空");
-            showWarnSweetDialog("账号密码不能为空");
+            showWarnSweetDialog("please set a nick name or password " );
             return;
+
         }
 
         if(Character.isDigit(userName.charAt(0)))
@@ -107,20 +116,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId())
         {
             case R.id.user_submit:
-                String url2 = "http://192.168.101.102:5000/app_register1";
-                RegisterResponse(url2,userName,passWord);
+                String url2 = app_register1URL;
+                //String url2 = "http://192.168.101.102:5000/app_register1";
+                RegisterResponse(url2,email_address,passWord,userName);
                 break;
         }
     }
 
 //注册响应 与登陆响应相似
 
-    private void RegisterResponse(String url,final String userName,String passWord){
+    private void RegisterResponse(String url,final String email,String passWord,String nickName){
         OkHttpClient client  = new OkHttpClient();
 
         FormBody.Builder register_form_bulider = new FormBody.Builder();
-        register_form_bulider.add("username",userName);
+        register_form_bulider.add("emailaddress",email);
         register_form_bulider.add("password",passWord);
+        register_form_bulider.add("nickname",nickName);
         //
         Request  register_request = new Request.Builder().url(url).post(register_form_bulider.build()).build();
 

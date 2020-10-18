@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#DDA0DD"
     tools:context=".ui.notifications.NotificationsFragment">
 
     <LinearLayout
@@ -24,12 +25,15 @@
             android:layout_height="32dp" />
 
         <TableLayout
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@layout/background">
 
                 <Space
                     android:layout_width="match_parent"
@@ -44,13 +48,14 @@
                     tools:srcCompat="@tools:sample/avatars" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/Nickname"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="3"
                     android:gravity="center"
-                    android:text="Username"
-                    android:textSize="22dp" />
+                    android:textColor="#000000"
+                    android:text="Welcom,"
+                    android:textSize="25sp" />
 
 
             </TableRow>
@@ -63,8 +68,12 @@
 
         <Button
             android:id="@+id/button_orders"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@layout/backgroud_homebutton"
+            android:textColor="#FFF0F5"
             android:text="My Orders" />
 
         <Space
@@ -74,8 +83,29 @@
 
         <Button
             android:id="@+id/button_setting"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@layout/backgroud_homebutton"
+            android:textColor="#FFF0F5"
             android:text="Setting" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_weight="0" />
+
+        <Button
+            android:id="@+id/button_logout"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@layout/backgroud_homebutton"
+            android:textColor="#FFF0F5"
+            android:text="Log out" />
+
+
     </LinearLayout>>
 </androidx.constraintlayout.widget.ConstraintLayout>

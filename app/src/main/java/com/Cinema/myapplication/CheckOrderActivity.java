@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -27,11 +28,13 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.Cinema.myapplication.tool.ServerIP.check_ordersURL;
+
 public class CheckOrderActivity extends AppCompatActivity {
     //先获取一首用户ID
     Integer uid =MainActivity.UID;
 
-    public static ArrayList<Map<String, Object>> Order_list = new ArrayList<Map<String, Object>>();
+    public  ArrayList<Map<String, Object>> Order_list = new ArrayList<Map<String, Object>>();
 
 
     private ListView listView_order;//用于获取xml中的 布局对象
@@ -42,16 +45,25 @@ public class CheckOrderActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order);
 
-        CheckOrderResponse();
+        if(SelectSeatActivity.isLogin==1){
+            CheckOrderResponse();
+            listView_order = (ListView)findViewById(R.id.orderList); //得到ListView对象的引用
+        }
+        else{
+            Toast.makeText(this, "Please Login first", Toast.LENGTH_SHORT).show();
+            Intent login = new Intent(CheckOrderActivity.this, MainActivity.class);
+            startActivityForResult(login, 0);
+        }
 
 
-        listView_order = (ListView)findViewById(R.id.orderList); //得到ListView对象的引用
+
     }
 
     private void CheckOrderResponse()
     {
 
-        String url = "http://192.168.101.102:5000/check_orders";
+        String url =check_ordersURL;
+        //String url = "http://192.168.101.102:5000/check_orders";
         OkHttpClient client = new OkHttpClient();
         FormBody.Builder formBuilder = new FormBody.Builder();
         //添加键值对映射
@@ -99,6 +111,7 @@ public class CheckOrderActivity extends AppCompatActivity {
 
 
                                 int    ID  = jsonObject.getInt("OrderID");
+                                int    FID  = jsonObject.getInt("FilmID");
                                 String room=jsonObject.getString("Room");//这个地方包含了影厅吧。。
                                 String seatID=jsonObject.getString("SeatID");
                                 String time=jsonObject.getString("CurrentTime");
@@ -106,7 +119,7 @@ public class CheckOrderActivity extends AppCompatActivity {
                                 String date = jsonObject.getString("date");
                                 //String price=jsonObject.getString("Price");
 
-
+                                map.put("FID",FID);
                                 map.put("OrderID",ID);
                                 map.put("Room",room);
                                 map.put("SeatID",seatID);
@@ -175,7 +188,14 @@ public class CheckOrderActivity extends AppCompatActivity {
             viewHolder.Start_time.setText(Order_list.get(position).get("StartTime").toString());
             viewHolder.date.setText(Order_list.get(position).get("date").toString());
             viewHolder.SeatID.setText(Order_list.get(position).get("SeatID").toString());
+
             final String SeatID = Order_list.get(position).get("SeatID").toString();
+            final int FilmID = (int)Order_list.get(position).get("FID");
+            final int orderID = (int)Order_list.get(position).get("OrderID");
+
+            final String date = Order_list.get(position).get("date").toString();
+            final String StartTime = Order_list.get(position).get("StartTime").toString();
+            final String Room = Order_list.get(position).get("Room").toString();
 
 
             //final String FID = Arrange_list.get(position).get("ID").toString();
@@ -186,10 +206,20 @@ public class CheckOrderActivity extends AppCompatActivity {
                     //还没有单独设计 每个订单的页面。。我感觉不需要吧。。？？待定
                     Intent intent=new Intent(CheckOrderActivity.this,OrderDetailActivity.class);
                     //这里还需要传递一个price 才对。
-                    //
-
-                    //先把ID 传过去 做解析
+                    //先把座位ID 传过去 做解析
                     intent.putExtra("SeatID",Integer.valueOf(SeatID));
+                    //再传递一个 电影ID 用于显示图片
+                    intent.putExtra("FilmID",FilmID);
+                    //把订单ID传回去
+                    intent.putExtra("OrderID",orderID);
+
+                    //日期
+                    intent.putExtra("date",date);
+                    //时间
+                    intent.putExtra("StartTime",StartTime);
+                    //房号
+                    intent.putExtra("Room",Room);
+
 
                     startActivity(intent);
                 }
@@ -209,9 +239,6 @@ public class CheckOrderActivity extends AppCompatActivity {
         //TextView price;
         Button select_order;
 
-
-        //ImageView image;
-        //Button schedule_button;
     }
 
 

@@ -29,6 +29,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
+import static com.Cinema.myapplication.tool.ServerIP.user_scheduleURL;
+
+
 
 public class ScheduleActivity  extends AppCompatActivity {
 
@@ -42,7 +45,7 @@ public class ScheduleActivity  extends AppCompatActivity {
 
     private String FilmID;
 
-    private int PosterID;
+    public int PosterID;
 
     private ImageView image;
 
@@ -59,9 +62,6 @@ public class ScheduleActivity  extends AppCompatActivity {
 
         //接受海报ID
         PosterID =intent.getIntExtra("Position",-1);
-        //漂亮！没给老子传过来
-        System.out.println(PosterID);
-
 
         ScheduleResponse();
         //需不需要呢？？？？
@@ -72,7 +72,6 @@ public class ScheduleActivity  extends AppCompatActivity {
         //设置
         image.setImageBitmap((Bitmap) HomeFragment.Info_list.get(PosterID).get("image"));
         System.out.println(HomeFragment.Info_list.get(PosterID).get("image"));
-
          */
 
 
@@ -86,7 +85,9 @@ public class ScheduleActivity  extends AppCompatActivity {
     private void ScheduleResponse()
     {
 
-        String url = "http://192.168.101.102:5000/user_schedule";
+
+        String url = user_scheduleURL;
+       // String url = "http://192.168.101.102:5000/user_schedule";
 
 
         OkHttpClient client = new OkHttpClient();
@@ -136,6 +137,7 @@ public class ScheduleActivity  extends AppCompatActivity {
 
 
                                 int    ID  = jsonObject.getInt("ID");
+                                int    FID = jsonObject.getInt("FID");
                                 String room=jsonObject.getString("Room");
                                 String date=jsonObject.getString("Date");
                                 String time=jsonObject.getString("Time");
@@ -143,6 +145,7 @@ public class ScheduleActivity  extends AppCompatActivity {
 
 
                                 map.put("ID",ID);
+                                map.put("FID",FID);
                                 map.put("Room",room);
                                 map.put("Date",date);
                                 map.put("Time",time);
@@ -207,14 +210,23 @@ public class ScheduleActivity  extends AppCompatActivity {
             viewHolder.date.setText(Arrange_list.get(position).get("Date").toString());
             viewHolder.time.setText(Arrange_list.get(position).get("Time").toString());
             viewHolder.price.setText(Arrange_list.get(position).get("Price").toString());
-            final String FID = Arrange_list.get(position).get("ID").toString();
+            final String SID = Arrange_list.get(position).get("ID").toString();
+            final String Price = Arrange_list.get(position).get("Price").toString();
+            final String FID = Arrange_list.get(position).get("FID").toString();
             viewHolder.select_seats.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent=new Intent(ScheduleActivity.this,SelectSeatActivity.class);
                     //这里还需要传递一个price 才对。。
-                    //System.out.println(FID);
-                    intent.putExtra("ScheduleID",FID);
+                    intent.putExtra("Price",Price);
+
+                    intent.putExtra("ScheduleID",SID);
+
+                    //再传递 一个FID 用于 之后统计
+                    intent.putExtra("FilmID",FID);
+
+
+
                     startActivity(intent);
                 }
             });

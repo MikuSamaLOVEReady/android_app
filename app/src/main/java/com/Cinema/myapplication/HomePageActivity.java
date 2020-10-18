@@ -30,6 +30,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
+import static com.Cinema.myapplication.tool.ServerIP.HomepageURL;
+
 public class HomePageActivity extends AppCompatActivity {
 
 
@@ -75,7 +77,8 @@ public class HomePageActivity extends AppCompatActivity {
     private void HomepageResponse()
     {
 
-        String url = "http://192.168.101.102:5000/user/home";
+        String url =HomepageURL ;
+        //String url = "http://192.168.101.102:5000/user_home";
         //创建链接
         OkHttpClient client = new OkHttpClient();
 
@@ -105,7 +108,7 @@ public class HomePageActivity extends AppCompatActivity {
             {
                 response.header("Connection","close");
                 final String res = response.body().string();
-                //System.out.println(res);
+                System.out.println(res);
                 //将重负荷的任务移除到工作线程避免主线程阻塞，
                 // 当需要更新UI的时候我们需要“返回”到主线程，因为只有它才可以更新应用 UI。
                 runOnUiThread(new Runnable() {
@@ -202,6 +205,11 @@ public class HomePageActivity extends AppCompatActivity {
                 viewHolder.image    = (ImageView) convertView.findViewById(R.id.image_view);
                 viewHolder.FilmName = (TextView) convertView.findViewById(R.id.filmname);
                 viewHolder.Blurb = (TextView) convertView.findViewById(R.id.blurb);
+                viewHolder.leadactors = convertView.findViewById(R.id.leadactors);
+                viewHolder.director =convertView.findViewById(R.id.director);
+                viewHolder.rank  = convertView.findViewById(R.id.rank);
+
+
                 viewHolder.schedule_button =(Button) convertView.findViewById(R.id.schedule_show);
 
                 convertView.setTag(viewHolder);}
@@ -212,6 +220,9 @@ public class HomePageActivity extends AppCompatActivity {
             final int PosterID =  position;
             viewHolder.FilmName.setText(Info_list.get(position).get("FilmName").toString());
             viewHolder.Blurb.setText(Info_list.get(position).get("Blurb").toString());
+            viewHolder.leadactors.setText(Info_list.get(position).get("FilmName").toString());
+            viewHolder.director.setText(Info_list.get(position).get("FilmName").toString());
+            viewHolder.rank.setText(Info_list.get(position).get("FilmName").toString());
             viewHolder.image.setImageBitmap((Bitmap) Info_list.get(position).get("image"));
             viewHolder.schedule_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -242,6 +253,11 @@ public class HomePageActivity extends AppCompatActivity {
     class ViewHolder {
         TextView FilmName;
         TextView Blurb;
+
+        TextView leadactors;
+        TextView director;
+        TextView rank;
+
         ImageView image;
         Button   schedule_button;
     }
